@@ -1,0 +1,147 @@
+" add virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" plugins go here
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'tpope/vim-surround'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'pearofducks/ansible-vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'elzr/vim-json'
+Plugin 'othree/html5.vim'
+Plugin 'derekwyatt/vim-fswitch'
+
+call vundle#end()
+
+filetype indent plugin on
+let python_highlight_all=1
+syntax on
+"
+"" function to list virtualenvs
+:fun ReturnVirtualEnvs(A,L,P)
+:    return system("ls -d ~/venvs/*/ \| cut -d'/' -f7") 
+:endfun
+
+"" changing virtualenv should restart ycmserver
+:command -nargs=+ -complete=custom,ReturnVirtualEnvs Venv :VirtualEnvActivate <args> | YcmRestartServer
+
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType python nmap <F5> :w !python %<cr>
+
+"set regexpengine=1
+set laststatus=2
+set backspace=2
+set encoding=utf-8
+set number
+set autoindent
+set fileformat=unix
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set hlsearch
+set cursorline
+set ttyfast
+set ttyscroll=999
+set ruler
+set history=1000
+set undolevels=1000
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_python_checkers=['flake8']
+
+let g:Powerline_symbols = 'fancy'
+
+nnoremap <up> <C-w>k
+nnoremap <down> <C-w>j
+nnoremap <left> <C-w>h
+nnoremap <right> <C-w>l
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+inoremap å [
+inoremap Å ]
+inoremap ä {
+inoremap Ä }
+
+let hlstate=0
+nnoremap <leader>h :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" NERDTree
+map <leader>t :NERDTreeToggle<CR>
+
+nmap ,b :CtrlPBuffer<CR>
+nmap ,f :CtrlP<CR>
+
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+let g:ctrlp_working_path_mode='a'
+
+set wildignore+=*.swp,*.zip,*.tar.gz,*.pyc,*.so,*.dll,*.exe
+let NERDTreeIgnore=['\.pyc$','\.swp$']
+
+if has("gui_running")
+	set guioptions-=m
+	set guioptions-=T
+	set guioptions-=r
+	set guioptions-=L
+	set guifont=Hack\ Regular\ 9
+    set background=dark
+    colorscheme molokai
+else
+    set t_Co=256
+    colorscheme molokai
+endif
+
+"" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
