@@ -3,9 +3,6 @@
 echo "+ initializing submodules"
 git submodule update --init --recursive
 
-echo "+ patching font installation file"
-patch -p0 < ./fonts.patch
-
 THIS_DIR=$(readlink -f .)
 TMUXCONF=$HOME/.tmux.conf
 REALTMUXCONF=$THIS_DIR/tmux/tmux.conf
@@ -38,5 +35,9 @@ else
     echo -e "\t+ creating link $VIMDIR -> $REALVIMDIR"
     ln -s $REALVIMDIR $VIMDIR
 fi
+
+## install fonts
+echo "+ installing powerline fonts"
+./fonts/install.sh
 
 echo "+ done"
