@@ -1,13 +1,3 @@
-" add virtualenv support
-py3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
-
 set nocompatible
 filetype off
 
@@ -37,14 +27,6 @@ call vundle#end()
 filetype indent plugin on
 let python_highlight_all=1
 syntax on
-"
-"" function to list virtualenvs
-:fun ReturnVirtualEnvs(A,L,P)
-:    return system("ls -d ~/venvs/*/ \| cut -d'/' -f7") 
-:endfun
-
-"" changing virtualenv should restart ycmserver
-:command -nargs=+ -complete=custom,ReturnVirtualEnvs Venv :VirtualEnvActivate <args> | YcmRestartServer
 
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")

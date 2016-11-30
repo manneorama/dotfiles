@@ -6,6 +6,8 @@ git submodule update --init --recursive
 THIS_DIR=$(readlink -f .)
 TMUXCONF=$HOME/.tmux.conf
 REALTMUXCONF=$THIS_DIR/tmux/tmux.conf
+TMUXDIR=$HOME/.tmux
+REALTMUXDIR=$THIS_DIR/tmux/tmux
 VIMRC=$HOME/.vimrc
 REALVIMRC=$THIS_DIR/vim/vimrc
 VIMDIR=$HOME/.vim
@@ -18,6 +20,13 @@ if [ -e $TMUXCONF ]; then
 else
     echo -e "\t+ creating link $TMUXCONF -> $REALTMUXCONF"
     ln -s $REALTMUXCONF $TMUXCONF
+fi
+
+if [ -d $TMUXDIR ]; then
+    echo -e "\t- $TMUXDIR exists and is a file, not touching"
+else
+    echo -e "\t+ creating link $TMUXDIR -> $REALTMUXDIR"
+    ln -s $REALTMUXDIR $TMUXDIR
 fi
 
 ## setup vim
