@@ -6,7 +6,6 @@ call vundle#begin()
 
 " plugins go here
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Bundle 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
@@ -18,9 +17,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'mileszs/ack.vim'
-Plugin 'elzr/vim-json'
 Plugin 'othree/html5.vim'
-Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'othree/yajs.vim'
 Plugin 'derekwyatt/vim-fswitch'
 

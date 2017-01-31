@@ -13,6 +13,9 @@ REALVIMRC=$THIS_DIR/vim/vimrc
 VIMDIR=$HOME/.vim
 REALVIMDIR=$THIS_DIR/vim
 
+DIRCOLORS=$HOME/.dircolors
+REALDIRCOLORS=$THIS_DIR/dircolors/dircolors
+
 ## setup tmux config
 echo "+ configuring tmux"
 if [ -e $TMUXCONF ]; then
@@ -44,6 +47,14 @@ else
     echo -e "\t+ creating link $VIMDIR -> $REALVIMDIR"
     ln -s $REALVIMDIR $VIMDIR
 fi
+
+if [ -e $DIRCOLORS ]; then
+    echo -e "\t- $DIRCOLORS exists and is a file, not touching"
+else
+    echo -e "\t+ creating link $DIRCOLORS -> $REALDIRCOLORS"
+    ln -s $REALDIRCOLORS $DIRCOLORS
+fi
+
 
 ## install fonts
 echo "+ installing powerline fonts"
