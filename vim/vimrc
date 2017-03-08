@@ -35,7 +35,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,javascript autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 autocmd FileType python nmap <F5> :w !python %<cr>
 
 "set regexpengine=1
@@ -63,8 +63,9 @@ set showmatch
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
+let g:syntastic_loc_list_height=5
 let g:syntastic_python_checkers=['flake8']
 
 let g:Powerline_symbols = 'fancy'
@@ -83,16 +84,21 @@ inoremap ä {
 inoremap Ä }
 
 let hlstate=0
-nnoremap <leader>h :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
+nnoremap ,h :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
 
 let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " NERDTree
-map <leader>t :NERDTreeToggle<CR>
+map ,t :NERDTreeToggle<CR>
 
+" CTRLP
 nmap ,b :CtrlPBuffer<CR>
 nmap ,f :CtrlP<CR>
+
+" Syntastic globals
+map ,q :SyntasticReset<CR>
+autocmd FileType python,javascript,html,htmldjango nmap ,c :SyntasticCheck<CR>
+
 
 if executable('ag')
   " Use Ag over Grep
@@ -100,7 +106,11 @@ if executable('ag')
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --vimgrep --smart-case'
+  cnoreabbrev ag Ack
+  cnoreabbrev aG Ack
+  cnoreabbrev Ag Ack
+  cnoreabbrev AG Ack
 endif
 
 let g:ctrlp_working_path_mode='a'
