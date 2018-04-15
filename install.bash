@@ -14,6 +14,10 @@ VIMDIR=$HOME/.vim
 REALVIMDIR=$THIS_DIR/vim
 GITCONFIG=$HOME/.gitconfig
 REALGITCONFIG=$THIS_DIR/git/gitconfig
+XRC=$HOME/.Xresources
+XRCD=$HOME/.Xresources.d
+REALXRC=$THIS_DIR/xrc/Xresources
+REALXRCD=$THIS_DIR/xrc/Xresources.d
 
 DIRCOLORS=$HOME/.dircolors
 REALDIRCOLORS=$THIS_DIR/dircolors/dircolors
@@ -57,13 +61,21 @@ else
     echo -e "creating link $GITCONFIG -> $REALGITCONFIG"
     ln -s $REALGITCONFIG $GITCONFIG
 fi
-#if [ -e $DIRCOLORS ]; then
-#    echo -e "\t- $DIRCOLORS exists and is a file, not touching"
-#else
-#    echo -e "\t+ creating link $DIRCOLORS -> $REALDIRCOLORS"
-#    ln -s $REALDIRCOLORS $DIRCOLORS
-#fi
 
+echo "+ xresources"
+if [ -e $XRC ]; then
+    echo -e "$XRC exists"
+else
+    echo -e "Creating link $XRC -> $REALXRC"
+    ln -s $REALXRC $XRC
+fi
+echo "+ xresources.d"
+if [ -e $XRCD ]; then
+    echo -e "$XRCD exists"
+else
+    echo -e "Creating link $XRCD -> $REALXRCD"
+    ln -s $REALXRCD $XRCD
+fi
 
 # install fonts
 echo "+ installing powerline fonts"

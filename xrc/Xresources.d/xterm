@@ -1,0 +1,8 @@
+XTerm.termName: xterm-256color
+XTerm*faceName: Monaco for Powerline:size=9:antialiasing=false
+XTerm*utf8: true
+XTerm*cursorBlink: true
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.saveLines: 16284
+XTerm.vt100.reverseVideo: false
+XTerm.vt100.bellIsUrgent: true
