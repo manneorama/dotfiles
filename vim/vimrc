@@ -1,4 +1,3 @@
-set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -12,15 +11,18 @@ Plugin 'ternjs/tern_for_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'othree/html5.vim'
 Plugin 'othree/yajs.vim'
-Plugin 'derekwyatt/vim-fswitch'
+Plugin 'rdolgushin/groovy.vim'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'nightsense/simplifysimplify'
+Bundle 'vim-scripts/groovyindent.git'
 
 call vundle#end()
 
@@ -35,10 +37,10 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,javascript autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,javascript,groovy autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 autocmd FileType python nmap <F5> :w !python %<cr>
 
-"set regexpengine=1
+set regexpengine=1
 set laststatus=2
 set backspace=2
 set encoding=utf-8
@@ -50,25 +52,19 @@ set expandtab
 set shiftwidth=4
 set softtabstop=4
 set hlsearch
-set cursorline
 set ttyfast
-set ttyscroll=999
+if !has('nvim')
+    set ttyscroll=999
+endif
 set ruler
-set history=1000
-set undolevels=1000
+set history=128
+set undolevels=128
 set ignorecase
 set smartcase
 set incsearch
 set showmatch
 
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=0
-let g:syntastic_check_on_wq=0
-let g:syntastic_loc_list_height=5
-let g:syntastic_python_checkers=['flake8']
-
-let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
 
 nnoremap <up> <C-w>k
 nnoremap <down> <C-w>j
@@ -78,10 +74,7 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
-inoremap å [
-inoremap Å ]
-inoremap ä {
-inoremap Ä }
+vnoremap . :normal .<CR>
 
 let hlstate=0
 nnoremap ,h :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
@@ -95,10 +88,17 @@ map ,t :NERDTreeToggle<CR>
 nmap ,b :CtrlPBuffer<CR>
 nmap ,f :CtrlP<CR>
 
-" Syntastic globals
-map ,q :SyntasticReset<CR>
-autocmd FileType python,javascript,html,htmldjango nmap ,c :SyntasticCheck<CR>
-
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_aggregate_errors=1
+let g:syntastic_javascript_checkers=['eslint']
+if executable('node_modules/.bin/eslint')
+    let g:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
+endif
 
 if executable('ag')
   " Use Ag over Grep
@@ -123,9 +123,8 @@ if has("gui_running")
 	set guioptions-=T
 	set guioptions-=r
 	set guioptions-=L
-	set guifont=Hack\ Regular\ 9
-    set background=dark
-    colorscheme molokai
+	set guifont=Monaco\ for\ Powerline\ 10
+    colorscheme simplifysimplify-dark
 else
     set t_Co=256
     colorscheme molokai

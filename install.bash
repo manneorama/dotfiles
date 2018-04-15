@@ -48,16 +48,16 @@ else
     ln -s $REALVIMDIR $VIMDIR
 fi
 
-if [ -e $DIRCOLORS ]; then
-    echo -e "\t- $DIRCOLORS exists and is a file, not touching"
-else
-    echo -e "\t+ creating link $DIRCOLORS -> $REALDIRCOLORS"
-    ln -s $REALDIRCOLORS $DIRCOLORS
-fi
+#if [ -e $DIRCOLORS ]; then
+#    echo -e "\t- $DIRCOLORS exists and is a file, not touching"
+#else
+#    echo -e "\t+ creating link $DIRCOLORS -> $REALDIRCOLORS"
+#    ln -s $REALDIRCOLORS $DIRCOLORS
+#fi
 
 
 ## install fonts
-echo "+ installing powerline fonts"
-./fonts/install.sh
+#echo "+ installing powerline fonts"
+#./fonts/install.sh
 
 echo "+ done"
