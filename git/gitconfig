@@ -1,0 +1,40 @@
+[user]
+	email = emanuel.birge@tobii.com
+	name = Emanuel Birge
+[push]
+	default = simple
+[alias]
+    ls = log --pretty=format:"%C(yellow)%h\\ -\\ %ad%Creset%C(magenta)%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+    ll = log --pretty=format:"%C(yellow)%h%C(magenta)%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    gr = log --pretty=format:"%C(yellow)%h\\ -\\ %ad%Creset%C(magenta)%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative --graph --all
+    fl = log -u
+    dl = "!git ll -1"
+    dr  = "!f() { git diff "$1"^.."$1"; }; f"
+    cp = cherry-pick
+    st = status -s
+    cl = clone
+    ci = commit
+    co = checkout
+    br = branch
+    diff = diff --word-diff
+    dc = diff --staged
+    la = "!git config -l | grep alias | cut -c 7-"
+	d = difftool
+    f = fetch
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[pull]
+	rebase = false
+	ff = only
+[merge]
+	ff = only
+	tool = vimdiff
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[mergetool]
+	prompt = false
