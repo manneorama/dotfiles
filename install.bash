@@ -6,6 +6,8 @@ git submodule update --init --recursive
 THIS_DIR=$(readlink -f .)
 TMUXCONF=$HOME/.tmux.conf
 REALTMUXCONF=$THIS_DIR/tmux/tmux.conf
+TMUXRESETCONF=$HOME/.tmux-reset.conf
+REALTMUXRESETCONF=$THIS_DIR/tmux/tmux-reset.conf
 TMUXDIR=$HOME/.tmux
 REALTMUXDIR=$THIS_DIR/tmux/tmux
 VIMRC=$HOME/.vimrc
@@ -29,6 +31,15 @@ if [ -e $TMUXCONF ]; then
 else
     echo -e "creating link $TMUXCONF -> $REALTMUXCONF"
     ln -s $REALTMUXCONF $TMUXCONF
+fi
+
+## setup tmux config
+echo "+ configuring tmux reset"
+if [ -e $TMUXRESETCONF ]; then
+    echo -e "$TMUXRESETCONF exists and is a file, not touching"
+else
+    echo -e "creating link $TMUXRESETCONF -> $REALTMUXRESETCONF"
+    ln -s $REALTMUXRESETCONF $TMUXRESETCONF
 fi
 
 if [ -d $TMUXDIR ]; then

@@ -4,9 +4,6 @@
 [submodule "fonts"]
 	path = fonts
 	url = git@github.com:manneorama/fonts
-[submodule "tmux/tmux/plugins/tpm"]
-	path = tmux/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
 [submodule "fzf"]
 	path = fzf
 	url = https://github.com/junegunn/fzf.git
