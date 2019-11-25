@@ -23,6 +23,10 @@ Plugin 'othree/yajs.vim'
 Plugin 'rdolgushin/groovy.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'nightsense/simplifysimplify'
+Plugin 'grailbio/bazel-compilation-database'
+Plugin 'janko-m/vim-test'
+Plugin 'ConradIrwin/vim-bracketed-paste'
+Plugin 'morhetz/gruvbox'
 Bundle 'vim-scripts/groovyindent.git'
 
 call vundle#end()
@@ -41,9 +45,10 @@ endfun
 autocmd FileType c,cpp,java,php,ruby,python,javascript,groovy autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 autocmd FileType python nmap <F5> :w !python %<cr>
 
+set clipboard=unnamedplus
 set regexpengine=1
 set laststatus=2
-set backspace=2
+set backspace=indent,eol,start
 set encoding=utf-8
 set number
 set autoindent
@@ -64,31 +69,101 @@ set ignorecase
 set smartcase
 set incsearch
 set showmatch
+set relativenumber
+set undofile
+set wrap
+set colorcolumn=120
 
+let mapleader = " "
 let g:airline_powerline_fonts = 1
 
+vnoremap . :normal .<CR>
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+" search using python/perl regexes instead of vim's insane version
+vnoremap / \v
+nnoremap / /\v
+
+" navigate splits using arrows
 nnoremap <up> <C-w>k
 nnoremap <down> <C-w>j
 nnoremap <left> <C-w>h
 nnoremap <right> <C-w>l
+
+" hardcore: no arrow keys in insert mode
 inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
-vnoremap . :normal .<CR>
 
-let hlstate=0
-nnoremap ,h :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
-
-let g:ycm_autoclose_preview_window_after_completion=1
+" clear search on leader + space (double space)
+nnoremap <leader><space> :noh<cr>
+" save on leader + w
+nnoremap <leader>w :w<cr>
+" clear trailing whitespace on leader + s
+nnoremap <leader>s :%s/\s\+$//<cr>:let @/=''<cr>
+" split and move to next window on leader + §
+nnoremap <leader>§ <C-w>v<C-w>l
+" format json like a baws
+nnoremap <leader>j :%! python -m json.tool<cr>
 
 " NERDTree
-map ,t :NERDTreeToggle<CR>
-
+nnoremap <leader>t :NERDTreeToggle<CR>
 " CTRLP
-nmap ,b :CtrlPBuffer<CR>
-nmap ,f :CtrlP<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>f :CtrlP<CR>
 
+" bazel
+nnoremap <silent> <leader>ab :!bazel build //...<CR>
+nnoremap <silent> <leader>at :!bazel test //...<CR>
+nnoremap <silent> <leader>hb :call BazelBuildHere()<CR>
+nnoremap <silent> <leader>ht :call BazelTestHere()<CR>
+
+function! BazelGetCurrentBufTarget()
+    let bazel_file_label=system("bazel query " . bufname("%") . " --color no --curses no --noshow_progress | tr -d '[:space:]'")
+    let bazel_file_package=split(bazel_file_label, ":")[0]
+    let g:current_bazel_target=system("bazel query \"attr('srcs', " . bazel_file_label . ", " . bazel_file_package . ":*)\" --color no --curses no --noshow_progress | tr -d '[:space:]'")
+endfunction
+
+function! BazelBuildWithErrorReporting()
+    set errorformat=ERROR:\ %f:%l:%c:%m
+    set errorformat+=%f:%l:%c:%m
+    set errorformat+=%-GINFO:\ %.%#
+    set errorformat+=%-GLoading:\ %.%#
+    set errorformat+=%-G[%.%#
+
+    execute "set makeprg=bazel\\ build\\ //... --color no --curses no --noshow_progress"
+    execute "silent ! make"
+
+    let qflist = getqflist()
+    if empty(qflist)
+        cclose
+    else
+        call setqflist(qflist)
+        copen
+        cfirst
+    endif
+    execute "redraw!"
+endfunction
+
+function! BazelBuildHere()
+    :call  BazelGetCurrentBufTarget()
+    :execute '!bazel build ' . g:current_bazel_target
+endfunction
+
+function! BazelTestHere()
+    :call BazelGetCurrentBufTarget()
+    :execute '!bazel test ' . g:current_bazel_target
+endfunction
+
+" vim-test
+let test#python#runner = 'nose'
+nnoremap <leader>n :TestNearest<cr>
+nnoremap <leader>m :TestFile<cr>
+
+" ycm
+let g:ycm_autoclose_preview_window_after_completion=1
 " syntastic
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
@@ -116,7 +191,7 @@ endif
 
 let g:ctrlp_working_path_mode='a'
 
-set wildignore+=*.swp,*.zip,*.tar.gz,*.pyc,*.so,*.dll,*.exe
+set wildignore+=*.swp,*.zip,*.tar.gz,*.pyc,*.so,*.dll,*.exe,*.un*
 let NERDTreeIgnore=['\.pyc$','\.swp$']
 
 if has("gui_running")
@@ -128,7 +203,7 @@ if has("gui_running")
     colorscheme simplifysimplify-dark
 else
     set t_Co=256
-    colorscheme molokai
+    colorscheme gruvbox
 endif
 
 "" Allow saving of files as sudo when I forgot to start vim using sudo.

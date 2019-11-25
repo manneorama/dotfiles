@@ -1,6 +1,6 @@
 [user]
-	email = emanuel.birge@gmail.com
-	name = manneorama
+	email = emanuel.birge@tobii.com
+	name = Emanuel Birge
 [push]
 	default = simple
 [alias]
@@ -38,3 +38,6 @@
 	clean = git-lfs clean -- %f
 [mergetool]
 	prompt = false
+[core]
+	excludesfile = /home/tobii.intra/ebe/.gitignore
+	editor = vim
