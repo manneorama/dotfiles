@@ -129,6 +129,9 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# assignments
+assign [class="Firefox"] 9
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -136,20 +139,20 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# pix
+exec --no-startup-id feh --bg-scale /home/e/pics/bg.jpg
 # mouse stuff
-exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
-exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
-exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Disable While Typing Enabled" 0
+exec --no-startup-id synclient VertScrollDelta=-112 TapButton1=1 TapButton3=2 ClickFinger3=2
 
 # keyboard stuff
-exec --no-startup-id setxkbmap us,se -option grp:alt_shift_toggle
+exec --no-startup-id setxkbmap se,us -option grp:alt_shift_toggle
 
 # screen brightness, sound
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 2+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 2-
+bindsym XF86AudioMute exec --no-startup-id amixer -q sset Master toggle
 
 # redshift
 exec --no-startup-id redshift -l 59.62:18.52 -m randr -t 6500:3000
@@ -185,7 +188,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $locker i3lock -c 1f1f1f --indicator --insidecolor=1f1f1fff --ringcolor=9ece9eff --keyhlcolor=f0dfafff --layoutcolor=9ece9eff --timecolor=9ece9eff --datecolor=9ece9eff --insidevercolor=f0dfafff --ringvercolor=f0dfafff && sleep 1
+set $locker i3lock -c 1f1f1f
 
 # autolock
 exec ~/bin/xautolock_wrap
@@ -210,7 +213,7 @@ bindsym $mod+Pause mode "$mode_system"
 # finds out, if available)
 bar {
     position top
-    font pango: Icons 9
+    font pango: monospace 8
     colors {
         background #1F1F1F
         statusline #DCDCCC

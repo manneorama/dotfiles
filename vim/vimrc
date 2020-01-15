@@ -27,6 +27,7 @@ Plugin 'grailbio/bazel-compilation-database'
 Plugin 'janko-m/vim-test'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'morhetz/gruvbox'
+Plugin 'luochen1990/rainbow'
 Bundle 'vim-scripts/groovyindent.git'
 
 call vundle#end()
@@ -76,6 +77,7 @@ set colorcolumn=120
 
 let mapleader = " "
 let g:airline_powerline_fonts = 1
+let g:rainbow_active = 1
 
 vnoremap . :normal .<CR>
 inoremap jk <esc>
