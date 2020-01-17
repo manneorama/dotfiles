@@ -7,3 +7,12 @@
 [submodule "fzf"]
 	path = fzf
 	url = https://github.com/junegunn/fzf.git
+[submodule "zsh/ohmyzsh"]
+	path = zsh/ohmyzsh
+	url = https://github.com/ohmyzsh/ohmyzsh.git
+[submodule "zsh/ohmyzsh-custom/plugins/zsh-autosuggestions"]
+	path = zsh/ohmyzsh-custom/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "zsh/ohmyzsh-custom/plugins/zsh-syntax-highlighting"]
+	path = zsh/ohmyzsh-custom/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git

@@ -28,6 +28,7 @@ Plugin 'janko-m/vim-test'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'morhetz/gruvbox'
 Plugin 'luochen1990/rainbow'
+Plugin 'fatih/vim-go'
 Bundle 'vim-scripts/groovyindent.git'
 
 call vundle#end()
@@ -43,7 +44,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,javascript,groovy autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,javascript,groovy,go autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 autocmd FileType python nmap <F5> :w !python %<cr>
 
 set clipboard=unnamedplus
@@ -78,6 +79,11 @@ set colorcolumn=120
 let mapleader = " "
 let g:airline_powerline_fonts = 1
 let g:rainbow_active = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+
 
 vnoremap . :normal .<CR>
 inoremap jk <esc>

@@ -6,8 +6,6 @@ git submodule update --init --recursive
 THIS_DIR=$(readlink -f .)
 TMUXCONF=$HOME/.tmux.conf
 REALTMUXCONF=$THIS_DIR/tmux/tmux.conf
-TMUXRESETCONF=$HOME/.tmux-reset.conf
-REALTMUXRESETCONF=$THIS_DIR/tmux/tmux-reset.conf
 TMUXDIR=$HOME/.tmux
 REALTMUXDIR=$THIS_DIR/tmux/tmux
 VIMRC=$HOME/.vimrc
@@ -20,76 +18,41 @@ XRC=$HOME/.Xresources
 XRCD=$HOME/.Xresources.d
 REALXRC=$THIS_DIR/xrc/Xresources
 REALXRCD=$THIS_DIR/xrc/Xresources.d
+FZFDIR=$HOME/fzf
+REALFZFDIR=$THIS_DIR/fzf
+ZSHCONF=$HOME/.zshrc
+REALZSHCONF=$THIS_DIR/zsh/zshrc
+OHMYZSHDIR=$HOME/.oh-my-zsh
+REALOHMYZSHDIR=$THIS_DIR/zsh/ohmyzsh
+OHMYCUSTOMDIR=$HOME/.oh-my-zsh-custom
+REALOHMYCUSTOMDIR=$THIS_DIR/zsh/ohmyzsh-custom
 
-DIRCOLORS=$HOME/.dircolors
-REALDIRCOLORS=$THIS_DIR/dircolors/dircolors
+echo "+ installing tmux.conf"
+ln -sf $REALTMUXCONF $TMUXCONF
+ln -sf $REALTMUXDIR $TMUXDIR
 
-## setup tmux config
-echo "+ configuring tmux"
-if [ -e $TMUXCONF ]; then
-    echo -e "$TMUXCONF exists and is a file, not touching"
-else
-    echo -e "creating link $TMUXCONF -> $REALTMUXCONF"
-    ln -s $REALTMUXCONF $TMUXCONF
-fi
+echo "+ installing vimrc"
+ln -sf $REALVIMRC $VIMRC
+ln -sf $REALVIMDIR $VIMDIR
 
-## setup tmux config
-echo "+ configuring tmux reset"
-if [ -e $TMUXRESETCONF ]; then
-    echo -e "$TMUXRESETCONF exists and is a file, not touching"
-else
-    echo -e "creating link $TMUXRESETCONF -> $REALTMUXRESETCONF"
-    ln -s $REALTMUXRESETCONF $TMUXRESETCONF
-fi
+echo "+ installing gitconfig"
+ln -sf $REALGITCONFIG $GITCONFIG
 
-if [ -d $TMUXDIR ]; then
-    echo -e "$TMUXDIR exists and is a file, not touching"
-else
-    echo -e "creating link $TMUXDIR -> $REALTMUXDIR"
-    ln -s $REALTMUXDIR $TMUXDIR
-fi
+echo "+ installing xresources"
+ln -sf $REALXRC $XRC
+ln -sf $REALXRCD $XRCD
 
-## setup vim
-echo "+ configuring vim"
-if [ -e $VIMRC ]; then
-    echo -e "$VIMRC exists and is a file, not touching"
-else
-    echo -e "creating link $VIMRC -> $REALVIMRC"
-    ln -s $REALVIMRC $VIMRC
-fi
-
-if [ -d $VIMDIR ]; then
-    echo -e "$VIMDIR exists and is a directory, not touching"
-else
-    echo -e "creating link $VIMDIR -> $REALVIMDIR"
-    ln -s $REALVIMDIR $VIMDIR
-fi
-
-echo "+ configuring git"
-if [ -e $GITCONFIG ]; then
-    echo -e "$GITCONFIG exists and is a file, not touching"
-else
-    echo -e "creating link $GITCONFIG -> $REALGITCONFIG"
-    ln -s $REALGITCONFIG $GITCONFIG
-fi
-
-echo "+ xresources"
-if [ -e $XRC ]; then
-    echo -e "$XRC exists"
-else
-    echo -e "Creating link $XRC -> $REALXRC"
-    ln -s $REALXRC $XRC
-fi
-echo "+ xresources.d"
-if [ -e $XRCD ]; then
-    echo -e "$XRCD exists"
-else
-    echo -e "Creating link $XRCD -> $REALXRCD"
-    ln -s $REALXRCD $XRCD
-fi
-
-# install fonts
 echo "+ installing powerline fonts"
 ./fonts/install.sh
+
+echo "+ installing fzf"
+ln -sf $REALFZFDIR $FZFDIR
+
+echo "+ installing zshrc"
+ln -sf $REALZSHCONF $ZSHCONF
+
+echo "+ installing ohmyzsh"
+ln -sf $REALOHMYZSHDIR $OHMYZSHDIR
+ln -sf $REALOHMYCUSTOMDIR $OHMYCUSTOMDIR
 
 echo "+ done"
