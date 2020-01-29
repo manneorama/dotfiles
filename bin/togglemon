@@ -1,0 +1,13 @@
+#!/bin/bash
+
+EXTERNAL_LEFT="DP-2-2"
+EXTERNAL_RIGHT="DP-1-2"
+INTERNAL="eDP-1"
+
+if [ "${1}" == "int" ]; then
+    xrandr --output ${INTERNAL} --auto --output ${EXTERNAL_LEFT} --off --output ${EXTERNAL_RIGHT} --off
+elif [ "${1}" == "office" ]; then
+    xrandr --output ${INTERNAL} --off --output ${EXTERNAL_LEFT} --rotate left --auto --output ${EXTERNAL_RIGHT} --auto --right-of ${EXTERNAL_LEFT} --primary
+elif [ "${1}" == "single" ]; then
+    xrandr --output ${INTERNAL} --off --output ${EXTERNAL_LEFT} --off --output ${EXTERNAL_RIGHT} --auto --primary
+fi
