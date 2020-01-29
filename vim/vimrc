@@ -86,7 +86,7 @@ let g:go_highlight_function_calls = 1
 
 
 vnoremap . :normal .<CR>
-inoremap jk <esc>
+inoremap jj <esc>
 inoremap <esc> <nop>
 
 " search using python/perl regexes instead of vim's insane version

@@ -1,5 +1,6 @@
 XTerm.termName: xterm-256color
-XTerm*faceName: xft:Monaco for Powerline:size=11:antialiasing=false
+XTerm*faceName: xft:Source Code Pro for Powerline:size=14:antialiasing=false
+XTerm*faceSize: 14
 XTerm*utf8: true
 XTerm*cursorBlink: true
 XTerm.vt100.metaSendsEscape: true
